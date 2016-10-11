@@ -11,7 +11,7 @@
  */
 
 function day5_cron() {
-	echo "hello";
+
 	$blocks = \Drupal::entityTypeManager()->getStorage('block_content');
 	$blocks = $blocks->loadByProperties(array('type' => 'stock_exchange_rate_card'));
 	$map = array(
@@ -35,7 +35,6 @@ function _get_stock_field_values($sym) {
 	$response = \Drupal::httpClient()->get($url, array('headers' => array('Accept' => 'text/plain')));
 	$data = (string) $response->getBody();
 	$response_obj = json_decode((string)$data);
-	//print_r($response_obj);exit();
 
 	return $response_obj;
 }
