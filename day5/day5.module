@@ -1,0 +1,43 @@
+<?php
+
+/**
+ * @file
+ * This is the Day5 module for executing stored actions.
+ */
+
+
+/**
+ * Implements hook_cron()
+ */
+
+function day5_cron() {
+	echo "hello";
+	$blocks = \Drupal::entityTypeManager()->getStorage('block_content');
+	$blocks = $blocks->loadByProperties(array('type' => 'stock_exchange_rate_card'));
+	$map = array(
+    'field_company_name' => 'Name',
+    'field_last_price' => 'LastPrice',
+    'field_change' => 'Change',
+  	);
+  	foreach ($blocks as $block) {
+	    $field_values = _get_stock_field_values($block->field_symbol->value);
+	    if($field_values->Status == 'SUCCESS') {
+	    	foreach ($map as $block_field => $api_field) {
+	    		$block->{$block_field} = $field_values->{$api_field};
+	    	}
+	    	$block->save();
+	    }
+  	}
+}
+
+function _get_stock_field_values($sym) {
+	$url = "http://dev.markitondemand.com/MODApis/Api/v2/Quote/json?symbol=" . $sym . "&callback=myFunction";
+	$response = \Drupal::httpClient()->get($url, array('headers' => array('Accept' => 'text/plain')));
+	$data = (string) $response->getBody();
+	$response_obj = json_decode((string)$data);
+	//print_r($response_obj);exit();
+
+	return $response_obj;
+}
+
+?>
