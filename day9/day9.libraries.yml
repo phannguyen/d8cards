@@ -1,0 +1,6 @@
+day9-asset:
+  css:
+    theme:
+      day9.css: {}
+  js:
+    day9.js: {}

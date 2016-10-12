@@ -1,0 +1,11 @@
+<?php
+
+/**
+ * Implements hook_element_info_alter().
+ */
+
+function day9_element_info_alter(array &$info) {
+	if(isset($info['table'])){
+		$info['table']['#attached']['library'][] = 'day9/day9-asset';
+	}
+}

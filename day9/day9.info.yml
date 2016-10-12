@@ -1,0 +1,5 @@
+name: Day9 Module
+description: Day 09 ­ Attaching assets (css/js) on D8
+package: Custom
+type: module
+core: 8.x
